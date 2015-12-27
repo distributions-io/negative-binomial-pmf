@@ -2,9 +2,9 @@ options( digits = 16 )
 library( jsonlite )
 
 
-r = 1
-p = 0.5
-x = seq( -1000, 1000, 0.5 )
+r = 100
+p = 0.8
+x = seq( -1, 1000, 0.5 )
 y = dnbinom( x, r,p )
 
 cat( y, sep = ",\n" )

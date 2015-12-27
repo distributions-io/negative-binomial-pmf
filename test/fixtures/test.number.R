@@ -2,8 +2,8 @@ options( digits = 16 )
 library( jsonlite )
 
 
-r = 1
-p = 0.5
+r = 3
+p = 0.8
 x = c( -5, -2.5, 0, 2.5, 5 )
 y = dnbinom( x, r,p )
 

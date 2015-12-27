@@ -1,8 +1,8 @@
 options( digits = 16 )
 library( jsonlite )
 
-r = 1
-p = 0.5
+r = 5
+p = 0.3
 x = 0:24
 y = dnbinom( x, r,p )
 
