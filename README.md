@@ -2,16 +2,16 @@ Probability Density Function
 ===
 [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Coverage Status][codecov-image]][codecov-url] [![Dependencies][dependencies-image]][dependencies-url]
 
-> [negative binomial](https://en.wikipedia.org/wiki/negative binomial_distribution) distribution probability density function (PDF).
+> [Negative binomial](https://en.wikipedia.org/wiki/Negative_binomial_distribution) distribution probability density function (PDF).
 
-The [probability mass function](https://en.wikipedia.org/wiki/Probability_mass_function) (PMF) for a [negative binomial](https://en.wikipedia.org/wiki/negative binomial_distribution) random variable is
+The [probability mass function](https://en.wikipedia.org/wiki/Probability_mass_function) (PMF) for a [negative binomial](https://en.wikipedia.org/wiki/Negative_binomial_distribution) random variable is
 
 <div class="equation" align="center" data-raw-text="" data-equation="eq:pmf_function">
 	<img src="" alt="Probability mass function (PMF) for a negative binomial distribution.">
 	<br>
 </div>
 
-where `r` is the number of failures until experiment is stopped and `p` is the success probability.
+where `r > 0` is the number of failures until experiment is stopped and `0 < p <= 1` is the success probability.
 
 ## Installation
 
@@ -30,7 +30,7 @@ var pmf = require( 'distributions-negative-binomial-pmf' );
 
 #### pmf( x[, options] )
 
-Evaluates the [probability mass function](https://en.wikipedia.org/wiki/Probability_mass_function) (PMF) for the [negative binomial](https://en.wikipedia.org/wiki/negative binomial_distribution) distribution. `x` may be either a [`number`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number), an [`array`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array), a [`typed array`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Typed_arrays), or a [`matrix`](https://github.com/dstructs/matrix).
+Evaluates the [probability mass function](https://en.wikipedia.org/wiki/Probability_mass_function) (PMF) for the [negative binomial](https://en.wikipedia.org/wiki/Negative_binomial_distribution) distribution. `x` may be either a [`number`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number), an [`array`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array), a [`typed array`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Typed_arrays), or a [`matrix`](https://github.com/dstructs/matrix).
 
 ``` javascript
 var matrix = require( 'dstructs-matrix' ),
@@ -40,7 +40,7 @@ var matrix = require( 'dstructs-matrix' ),
 	i;
 
 out = pmf( 1 );
-// returns
+// returns 0.25
 
 out = pmf( -1 );
 // returns 0
@@ -50,11 +50,11 @@ out = pmf( 0.5 );
 
 x = [ 0, 1, 2, 3, 4, 5 ];
 out = pmf( x );
-// returns [...]
+// returns [ 0.5, 0.25, ~0.125, ~0.062, ~0.031, ~0.016 ]
 
 x = new Int8Array( x );
 out = pmf( x );
-// returns Float64Array( [...] )
+// returns Float64Array( [0.5,0.25,~0.125,~0.062,~0.031,~0.016] )
 
 x = new Float32Array( 6 );
 for ( i = 0; i < 6; i++ ) {
@@ -69,10 +69,11 @@ mat = matrix( x, [3,2], 'float32' );
 
 out = pmf( mat );
 /*
-	[
-
-	   ]
+	[  0.5    0.25
+	  ~0.125 ~0.062
+	  ~0.031 ~0.016 ]
 */
+
 ```
 
 The function accepts the following `options`:
@@ -85,16 +86,17 @@ The function accepts the following `options`:
 *	__path__: [deepget](https://github.com/kgryte/utils-deep-get)/[deepset](https://github.com/kgryte/utils-deep-set) key path.
 *	__sep__: [deepget](https://github.com/kgryte/utils-deep-get)/[deepset](https://github.com/kgryte/utils-deep-set) key path separator. Default: `'.'`.
 
-A [negative binomial](https://en.wikipedia.org/wiki/negative binomial_distribution) distribution is a function of 2 parameter(s): `r`(number of failures until experiment is stopped) and `p`(success probability). By default, `r` is equal to `1` and `p` is equal to `0.5`. To adjust either parameter, set the corresponding option.
+A [negative binomial](https://en.wikipedia.org/wiki/Negative_binomial_distribution) distribution is a function of two parameters: `r > 0`(number of failures until experiment is stopped) and `0 < p <= 1`(success probability). By default, `r` is equal to `1` and `p` is equal to `0.5`. To adjust either parameter, set the corresponding option.
 
 ``` javascript
 var x = [ 0, 1, 2, 3, 4, 5 ];
 
 var out = pmf( x, {
 	'r': 3,
-	'p': 2
+	'p': 0.9
 });
-// returns [...]
+// returns [ ~0.729, ~0.219, ~0.044, ~0.007, ~0.001, 0 ]
+
 ```
 
 For non-numeric `arrays`, provide an accessor `function` for accessing `array` values.
@@ -116,7 +118,8 @@ function getValue( d, i ) {
 var out = pmf( data, {
 	'accessor': getValue
 });
-// returns [...]
+// returns [ 0.5, 0.25, ~0.125, ~0.062, ~0.031, ~0.016 ]
+
 ```
 
 
@@ -138,12 +141,12 @@ var out = pmf( data, {
 });
 /*
 	[
-		{'x':[0,]},
-		{'x':[1,]},
-		{'x':[2,]},
-		{'x':[3,]},
-		{'x':[4,]},
-		{'x':[5,]}
+		{'x':[0,0.5]},
+		{'x':[1,0.25]},
+		{'x':[2,~0.125]},
+		{'x':[3,~0.062]},
+		{'x':[4,~0.031]},
+		{'x':[5,~0.016]}
 	]
 */
 
@@ -161,13 +164,14 @@ x = new Int8Array( [0,1,2,3,4] );
 out = pmf( x, {
 	'dtype': 'float32'
 });
-// returns Float32Array( [...] )
+// returns Float32Array( [0.5,0.25,~0.125,~0.063,~0.031] )
 
 // Works for plain arrays, as well...
 out = pmf( [0,1,2,3,4], {
 	'dtype': 'float32'
 });
-// returns Float32Array( [...] )
+// returns Float32Array( [0.5,0.25,~0.125,~0.063,~0.031] )
+
 ```
 
 By default, the function returns a new data structure. To mutate the input data structure (e.g., when input values can be discarded or when optimizing memory usage), set the `copy` option to `false`.
@@ -184,7 +188,7 @@ x = [ 0, 1, 2, 3, 4, 5 ];
 out = pmf( x, {
 	'copy': false
 });
-// returns [...]
+// returns [ 0.5, 0.25, ~0.125, ~0.062, ~0.031, ~0.016 ]
 
 bool = ( x === out );
 // returns true
@@ -204,9 +208,9 @@ out = pmf( mat, {
 	'copy': false
 });
 /*
-	[
-
-	   ]
+	[ 0.5 0.25
+	  ~0.125 ~0.063
+	  ~0.031 ~0.016 ]
 */
 
 bool = ( mat === out );
@@ -216,7 +220,7 @@ bool = ( mat === out );
 
 ## Notes
 
-*	If an element is __not__ a numeric value, the evaluated [PMF](https://en.wikipedia.org/wiki/negative binomial_distribution) is `NaN`.
+*	If an element is __not__ a numeric value, the evaluated [PMF](https://en.wikipedia.org/wiki/Negative_binomial_distribution) is `NaN`.
 
 	``` javascript
 	var data, out;
@@ -383,7 +387,7 @@ Copyright &copy; 2015. The [Compute.io](https://github.com/compute-io) Authors.
 [travis-image]: http://img.shields.io/travis/distributions-io/negative-binomial-pmf/master.svg
 [travis-url]: https://travis-ci.org/distributions-io/negative-binomial-pmf
 
-[codecov-image]: https://img.shields.io/codecov/github/distributions-io/negative-binomial-pmf/master.svg
+[codecov-image]: https://img.shields.io/codecov/c/github/distributions-io/negative-binomial-pmf/master.svg
 [codecov-url]: https://codecov.io/github/distributions-io/negative-binomial-pmf?branch=master
 
 [dependencies-image]: http://img.shields.io/david/distributions-io/negative-binomial-pmf.svg

@@ -1,7 +1,7 @@
 {
   "name": "distributions-negative-binomial-pmf",
   "version": "0.0.0",
-  "description": "negative binomial distribution probability mass function (PMF)",
+  "description": "Negative binomial distribution probability mass function (PMF)",
   "author": {
     "name": "Philipp Burckhardt",
     "email": "pburckhardt@outlook.com"
@@ -20,18 +20,21 @@
   "main": "./lib",
   "repository": {
     "type": "git",
-    "url": "git://github.com/compute-io/negative-binomial-pmf.git"
+    "url": "git://github.com/distributions-io/negative-binomial-pmf.git"
   },
   "keywords": [
     "distributions.io",
     "distributions",
+    "distribution",
+    "discrete",
     "probability",
     "statistics",
     "stats",
-    "pdf"
+    "pdf",
+    "density"
   ],
   "bugs": {
-    "url": "https://github.com/compute-io/negative-binomial-pmf/issues"
+    "url": "https://github.com/distributions-io/negative-binomial-pmf/issues"
   },
   "dependencies": {
     "compute-array-constructors": "^1.0.0",
