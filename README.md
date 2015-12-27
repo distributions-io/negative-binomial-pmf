@@ -7,7 +7,7 @@ Probability Density Function
 The [probability mass function](https://en.wikipedia.org/wiki/Probability_mass_function) (PMF) for a [negative binomial](https://en.wikipedia.org/wiki/Negative_binomial_distribution) random variable is
 
 <div class="equation" align="center" data-raw-text="f(x; r, p) = P(X = x; r,p) = \binom{k+r-1}{x} p^x(1-p)^r \quad\text{for }x = 0, 1, 2, \dotsc" data-equation="eq:pmf_function">
-	<img src="" alt="Probability mass function (PMF) for a negative binomial distribution.">
+	<img src="https://cdn.rawgit.com/distributions-io/negative-binomial-pmf/16d1d85d5430e332e6e0ef13263f0a98e56e337a/docs/img/eqn.svg" alt="Probability mass function (PMF) for a negative binomial distribution.">
 	<br>
 </div>
 
